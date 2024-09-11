@@ -284,7 +284,25 @@ ideal_cycle = 20
         code = code + frequency_control_code_post
         return code
 
+
     def on_run_application(self, event):
+        def find_docker_console():
+            """Search console in docker different of /dev/pts/0"""
+            pts_consoles = [f"/dev/pts/{dev}" for dev in os.listdir('/dev/pts/') if dev.isdigit()]
+            
+            for console in pts_consoles:
+                if console != "/dev/pts/0":
+                    try:
+                        # Search if it's a console
+                        with open(console, 'w') as f:
+                            f.write("")
+                        return console
+                    except Exception:
+                        # Continue searching
+                        continue
+            
+            raise Exception("No active console other than /dev/pts/0")
+
 
         code_path = "/workspace/code/exercise.py"
         # Extract app config
@@ -331,10 +349,18 @@ ideal_cycle = 20
             )
             self.unpause_sim()
         else:
-            with open('/dev/pts/1', 'w') as console:
-                console.write(errors + "\n\n")
+            try:
+                console_path = find_docker_console()
+                if console_path:
+                    print(f"Consola encontrada: {console_path}")
 
-            raise Exception(errors)
+                    with open(console_path, 'w') as console:
+                        console.write(errors + "\n\n")
+
+                    raise Exception(errors)
+
+            except Exception as e:
+                print(f"Error manejando la consola: {str(e)}")
 
         LogManager.logger.info("Run application transition finished")
 
