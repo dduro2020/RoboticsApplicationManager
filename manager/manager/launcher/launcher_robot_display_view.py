@@ -16,11 +16,11 @@ class LauncherRobotDisplayView(ILauncher):
     threads = []
 
     def run(self, callback):
-        DRI_PATH = os.path.join("/dev/dri", os.environ.get("DRI_NAME", "card0"))
+        DRI_PATH = self.get_dri_path()
         ACCELERATION_ENABLED = self.check_device(DRI_PATH)
 
         robot_display_vnc = Vnc_server()
-        
+
         if (ACCELERATION_ENABLED):
             robot_display_vnc.start_vnc_gpu(self.display, self.internal_port, self.external_port,DRI_PATH)
             # Write display config and start the console
@@ -34,13 +34,7 @@ class LauncherRobotDisplayView(ILauncher):
         console_thread.start()
         self.threads.append(console_thread)
 
-        self.running = True        
-
-    def check_device(self, device_path):
-        try:
-            return stat.S_ISCHR(os.lstat(device_path)[stat.ST_MODE])
-        except:
-            return False
+        self.running = True
 
     def is_running(self):
         return self.running

@@ -16,7 +16,7 @@ class LauncherConsole(ILauncher):
     console_vnc: Any = Vnc_server()
 
     def run(self, callback):
-        DRI_PATH = os.path.join("/dev/dri", os.environ.get("DRI_NAME", "card0"))
+        DRI_PATH = self.get_dri_path()
         ACCELERATION_ENABLED = False
 
         if ACCELERATION_ENABLED:
@@ -37,12 +37,6 @@ class LauncherConsole(ILauncher):
         self.threads.append(console_thread)
 
         self.running = True
-
-    def check_device(self, device_path):
-        try:
-            return stat.S_ISCHR(os.lstat(device_path)[stat.ST_MODE])
-        except:
-            return False
 
     def is_running(self):
         return self.running

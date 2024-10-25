@@ -10,9 +10,9 @@ class LauncherTeleoperatorRos2(ILauncher):
     threads = []
 
     def run(self, callback):
-        DRI_PATH = os.path.join("/dev/dri", os.environ.get("DRI_NAME", "card0"))
+        DRI_PATH = self.get_dri_path()
         ACCELERATION_ENABLED = self.check_device(DRI_PATH)
-        
+
         if (ACCELERATION_ENABLED):
             teleop_cmd = f"export VGL_DISPLAY={DRI_PATH}; vglrun python3 /opt/jderobot/utils/model_teleoperator.py 0.0.0.0"
         else:
@@ -23,12 +23,6 @@ class LauncherTeleoperatorRos2(ILauncher):
         self.threads.append(teleop_thread)
 
         self.running = True
-    
-    def check_device(self, device_path):
-        try:
-            return stat.S_ISCHR(os.lstat(device_path)[stat.ST_MODE])
-        except:
-            return False
 
     def is_running(self):
         return self.running
