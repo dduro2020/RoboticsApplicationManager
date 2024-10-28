@@ -12,7 +12,7 @@ class LauncherRvizRos2(ILauncher):
     threads = []
 
     def run(self, callback):
-        DRI_PATH = os.path.join("/dev/dri", os.environ.get("DRI_NAME", "card0"))
+        DRI_PATH = self.get_dri_path()
         ACCELERATION_ENABLED = self.check_device(DRI_PATH)
         rviz_vnc = Vnc_server()
 
@@ -27,12 +27,6 @@ class LauncherRvizRos2(ILauncher):
         rviz_thread.start()
         self.threads.append(rviz_thread)
         self.running = True
-
-    def check_device(self, device_path):
-        try:
-            return stat.S_ISCHR(os.lstat(device_path)[stat.ST_MODE])
-        except:
-            return False
 
     def is_running(self):
         return self.running

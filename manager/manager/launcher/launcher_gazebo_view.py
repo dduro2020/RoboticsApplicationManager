@@ -51,12 +51,6 @@ class LauncherGazeboView(ILauncher):
 
         self.running = True
 
-    def check_device(self, device_path):
-        try:
-            return stat.S_ISCHR(os.lstat(device_path)[stat.ST_MODE])
-        except:
-            return False
-
     def is_running(self):
         return self.running
 
@@ -71,14 +65,3 @@ class LauncherGazeboView(ILauncher):
 
     def died(self):
         pass
-
-    def get_dri_path(self):
-        directory_path = "/dev/dri"
-        dri_path = ""
-        if os.path.exists(directory_path) and os.path.isdir(directory_path):
-            files = os.listdir(directory_path)
-            if "card1" in files:
-                dri_path = os.path.join("/dev/dri", os.environ.get("DRI_NAME", "card1"))
-            else:
-                dri_path = os.path.join("/dev/dri", os.environ.get("DRI_NAME", "card0"))
-        return dri_path
