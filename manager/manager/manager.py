@@ -374,26 +374,30 @@ ideal_cycle = 20
                 return self.run_bt_studio_application(app_cfg)
         except Exception:
             pass
+    
+        # Unzip the app
+        if app_cfg["code"].startswith("data:"):
+            _, _, code = app_cfg["code"].partition("base64,")
+        with open("/workspace/code/app.zip", "wb") as result:
+            result.write(base64.b64decode(code))
+        zip_ref = zipfile.ZipFile("/workspace/code/app.zip", "r")
+        zip_ref.extractall("/workspace/code")
+        zip_ref.close()
 
-        application_file_path = app_cfg["template"]
-        exercise_id = app_cfg["exercise_id"]
-        code = app_cfg["code"]
-
-        # Template version
-        if "noetic" in str(self.ros_version):
-            application_folder = application_file_path + "/ros1_noetic/"
-        else:
-            application_folder = application_file_path + "/ros2_humble/"
-
-        if not os.path.isfile(application_folder + "exercise.py"):
-            code_path = "/workspace/code/academy.py"
+        if not os.path.isfile("/workspace/code/academy.py"):
+            LogManager.logger.info("User code not found")
+            raise Exception("User code not found")
+        
+        f = open("/workspace/code/academy.py", "r")
+        code = f.read()
+        f.close()
 
         # Make code backwards compatible
         code = code.replace("from GUI import GUI", "import GUI")
         code = code.replace("from HAL import HAL", "import HAL")
 
         # Create executable app
-        errors = self.linter.evaluate_code(code, exercise_id, self.ros_version)
+        errors = self.linter.evaluate_code(code, self.ros_version)
         if errors == "":
 
             code = self.add_frequency_control(code)
@@ -401,9 +405,8 @@ ideal_cycle = 20
             f.write(code)
             f.close()
 
-            shutil.copytree(application_folder, "/workspace/code", dirs_exist_ok=True)
             self.application_process = subprocess.Popen(
-                ["python3", code_path],
+                ["python3", "/workspace/code/academy.py"],
                 stdout=sys.stdout,
                 stderr=subprocess.STDOUT,
                 bufsize=1024,
@@ -417,7 +420,6 @@ ideal_cycle = 20
                     console.write(errors + "\n\n")
 
             raise Exception(errors)
-
 
         LogManager.logger.info("Run application transition finished")
 
