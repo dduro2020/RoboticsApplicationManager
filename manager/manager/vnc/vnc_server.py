@@ -1,10 +1,10 @@
 import time
 import socket
-from src.manager.manager.docker_thread.docker_thread import DockerThread
+from manager.manager.docker_thread.docker_thread import DockerThread
 import subprocess
 from typing import List, Any
 import os
-from src.manager.libs.process_utils import wait_for_xserver
+from manager.libs.process_utils import wait_for_xserver
 
 
 class Vnc_server:

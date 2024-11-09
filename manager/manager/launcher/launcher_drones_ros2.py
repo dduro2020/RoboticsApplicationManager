@@ -1,7 +1,7 @@
 import os
-from src.manager.manager.launcher.launcher_interface import ILauncher
-from src.manager.manager.docker_thread.docker_thread import DockerThread
-from src.manager.libs.process_utils import wait_for_xserver
+from manager.manager.launcher.launcher_interface import ILauncher
+from manager.manager.docker_thread.docker_thread import DockerThread
+from manager.libs.process_utils import wait_for_xserver
 from typing import List, Any
 
 

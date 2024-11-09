@@ -11,7 +11,7 @@ import base64
 
 import psutil
 
-from src.manager.ram_logging.log_manager import LogManager
+from manager.ram_logging.log_manager import LogManager
 
 
 def get_class(kls):

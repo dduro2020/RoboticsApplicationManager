@@ -4,7 +4,7 @@ import os
 from watchdog.events import FileSystemEventHandler
 import watchdog.observers
 
-from src.manager.ram_logging.log_manager import LogManager
+from manager.ram_logging.log_manager import LogManager
 
 class Handler(FileSystemEventHandler):
     

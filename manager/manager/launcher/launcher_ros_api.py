@@ -1,14 +1,14 @@
 import os
 import time
 from typing import List, Any
-from src.manager.manager.docker_thread.docker_thread import DockerThread
-from src.manager.libs.process_utils import wait_for_xserver
-from src.manager.libs.process_utils import wait_for_process_to_start
+from manager.manager.docker_thread.docker_thread import DockerThread
+from manager.libs.process_utils import wait_for_xserver
+from manager.libs.process_utils import wait_for_process_to_start
 import roslaunch
 import rospy
 
 
-from src.manager.manager.launcher.launcher_interface import ILauncher, LauncherException
+from manager.manager.launcher.launcher_interface import ILauncher, LauncherException
 
 import logging
 

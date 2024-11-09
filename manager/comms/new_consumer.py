@@ -4,9 +4,9 @@ from queue import Queue
 from uuid import uuid4
 from datetime import datetime
 
-from src.manager.comms.consumer_message import ManagerConsumerMessageException, ManagerConsumerMessage
-from src.manager.comms.websocker_server import WebsocketServer
-from src.manager.ram_logging.log_manager import LogManager
+from manager.comms.consumer_message import ManagerConsumerMessageException, ManagerConsumerMessage
+from manager.comms.websocker_server import WebsocketServer
+from manager.ram_logging.log_manager import LogManager
 
 
 class Client:
