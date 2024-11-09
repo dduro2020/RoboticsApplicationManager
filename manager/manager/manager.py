@@ -366,7 +366,13 @@ ideal_cycle = 20
             # raise Exception("No active console other than /dev/pts/0")
             return consoles
 
-        code_path = "/workspace/code/exercise.py"
+        code_path = "/workspace/code/academy.py"
+        
+        # Delete old files
+        if os.path.exists("/workspace/code"):
+            shutil.rmtree("/workspace/code")
+        os.mkdir("/workspace/code")
+
         # Extract app config
         app_cfg = event.kwargs.get("data", {})
         try:
@@ -384,11 +390,11 @@ ideal_cycle = 20
         zip_ref.extractall("/workspace/code")
         zip_ref.close()
 
-        if not os.path.isfile("/workspace/code/academy.py"):
+        if not os.path.isfile(code_path):
             LogManager.logger.info("User code not found")
             raise Exception("User code not found")
         
-        f = open("/workspace/code/academy.py", "r")
+        f = open(code_path, "r")
         code = f.read()
         f.close()
 
@@ -401,12 +407,12 @@ ideal_cycle = 20
         if errors == "":
 
             code = self.add_frequency_control(code)
-            f = open("/workspace/code/academy.py", "w")
+            f = open(code_path, "w")
             f.write(code)
             f.close()
 
             self.application_process = subprocess.Popen(
-                ["python3", "/workspace/code/academy.py"],
+                ["python3", code_path],
                 stdout=sys.stdout,
                 stderr=subprocess.STDOUT,
                 bufsize=1024,
