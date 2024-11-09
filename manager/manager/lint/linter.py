@@ -76,9 +76,9 @@ class Lint:
 
             command = ""
             if "humble" in str(ros_version):                
-                command = f"export PYTHONPATH=$PYTHONPATH:/workspace/code; python3 RoboticsAcademy/src/manager/manager/lint/{py_lint_source}"
+                command = f"export PYTHONPATH=$PYTHONPATH:/workspace/code; python3 /RoboticsApplicationManager/manager/manager/lint/{py_lint_source}"
             else:
-                command = f"export PYTHONPATH=$PYTHONPATH:/workspace/code; python3 RoboticsAcademy/src/manager/manager/lint/{py_lint_source}"
+                command = f"export PYTHONPATH=$PYTHONPATH:/workspace/code; python3 /RoboticsApplicationManager/manager/manager/lint/{py_lint_source}"
             
             ret = subprocess.run(
                 command,
