@@ -366,7 +366,13 @@ ideal_cycle = 20
             # raise Exception("No active console other than /dev/pts/0")
             return consoles
 
-        code_path = "/workspace/code/exercise.py"
+        code_path = "/workspace/code/academy.py"
+        
+        # Delete old files
+        if os.path.exists("/workspace/code"):
+            shutil.rmtree("/workspace/code")
+        os.mkdir("/workspace/code")
+
         # Extract app config
         app_cfg = event.kwargs.get("data", {})
         try:
@@ -374,34 +380,37 @@ ideal_cycle = 20
                 return self.run_bt_studio_application(app_cfg)
         except Exception:
             pass
+    
+        # Unzip the app
+        if app_cfg["code"].startswith("data:"):
+            _, _, code = app_cfg["code"].partition("base64,")
+        with open("/workspace/code/app.zip", "wb") as result:
+            result.write(base64.b64decode(code))
+        zip_ref = zipfile.ZipFile("/workspace/code/app.zip", "r")
+        zip_ref.extractall("/workspace/code")
+        zip_ref.close()
 
-        application_file_path = app_cfg["template"]
-        exercise_id = app_cfg["exercise_id"]
-        code = app_cfg["code"]
-
-        # Template version
-        if "noetic" in str(self.ros_version):
-            application_folder = application_file_path + "/ros1_noetic/"
-        else:
-            application_folder = application_file_path + "/ros2_humble/"
-
-        if not os.path.isfile(application_folder + "exercise.py"):
-            code_path = "/workspace/code/academy.py"
+        if not os.path.isfile(code_path):
+            LogManager.logger.info("User code not found")
+            raise Exception("User code not found")
+        
+        f = open(code_path, "r")
+        code = f.read()
+        f.close()
 
         # Make code backwards compatible
         code = code.replace("from GUI import GUI", "import GUI")
         code = code.replace("from HAL import HAL", "import HAL")
 
         # Create executable app
-        errors = self.linter.evaluate_code(code, exercise_id, self.ros_version)
+        errors = self.linter.evaluate_code(code, self.ros_version)
         if errors == "":
 
             code = self.add_frequency_control(code)
-            f = open("/workspace/code/academy.py", "w")
+            f = open(code_path, "w")
             f.write(code)
             f.close()
 
-            shutil.copytree(application_folder, "/workspace/code", dirs_exist_ok=True)
             self.application_process = subprocess.Popen(
                 ["python3", code_path],
                 stdout=sys.stdout,
@@ -417,7 +426,6 @@ ideal_cycle = 20
                     console.write(errors + "\n\n")
 
             raise Exception(errors)
-
 
         LogManager.logger.info("Run application transition finished")
 
