@@ -1,6 +1,7 @@
 # Author: Johan Hanssen Seferidis
 # License: MIT
 # From https://github.com/Pithikos/python-websocket-server
+# To fix OPCODE_CONTINUATION we have to apply this pacth https://github.com/Pithikos/python-websocket-server/pull/70/files. That is why we use this instead of the package
 
 import sys
 import struct

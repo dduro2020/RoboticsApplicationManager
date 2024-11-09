@@ -1,4 +1,5 @@
 # From https://github.com/Pithikos/python-websocket-server
+# Use this instead of python package because to solve OPCODE_CONTINUATION we have to apply a patch. See more in websocket_server.py
 
 import threading
 
