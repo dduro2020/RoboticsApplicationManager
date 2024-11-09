@@ -1,5 +1,5 @@
-from src.manager.manager.launcher.launcher_interface import ILauncher
-from src.manager.manager.docker_thread.docker_thread import DockerThread
+from manager.manager.launcher.launcher_interface import ILauncher
+from manager.manager.docker_thread.docker_thread import DockerThread
 import time
 import os
 import stat

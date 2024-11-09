@@ -1,6 +1,6 @@
-from src.manager.manager.launcher.launcher_interface import ILauncher
-from src.manager.manager.docker_thread.docker_thread import DockerThread
-from src.manager.manager.vnc.vnc_server import Vnc_server
+from manager.manager.launcher.launcher_interface import ILauncher
+from manager.manager.docker_thread.docker_thread import DockerThread
+from manager.manager.vnc.vnc_server import Vnc_server
 import time
 import os
 import stat

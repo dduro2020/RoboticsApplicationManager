@@ -3,7 +3,7 @@ import json
 
 from websocket_server import WebsocketServer
 
-from src.manager.ram_logging.log_manager import LogManager
+from manager.ram_logging.log_manager import LogManager
 
 
 class Server(threading.Thread):

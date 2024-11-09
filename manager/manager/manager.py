@@ -1,4 +1,7 @@
 from __future__ import annotations
+import sys
+
+sys.path.insert(0, '/RoboticsApplicationManager')
 
 import os
 import signal
@@ -20,20 +23,20 @@ from uuid import uuid4
 
 from transitions import Machine
 
-from src.manager.comms.consumer_message import ManagerConsumerMessageException
-from src.manager.comms.new_consumer import ManagerConsumer
-from src.manager.libs.process_utils import check_gpu_acceleration, get_class_from_file
-from src.manager.libs.launch_world_model import ConfigurationManager
-from src.manager.manager.launcher.launcher_world import LauncherWorld
-from src.manager.manager.launcher.launcher_visualization import LauncherVisualization
-from src.manager.ram_logging.log_manager import LogManager
-from src.manager.libs.applications.compatibility.server import Server
-from src.manager.libs.applications.compatibility.file_watchdog import FileWatchdog
-from src.manager.manager.application.robotics_python_application_interface import (
+from manager.comms.consumer_message import ManagerConsumerMessageException
+from manager.comms.new_consumer import ManagerConsumer
+from manager.libs.process_utils import check_gpu_acceleration, get_class_from_file
+from manager.libs.launch_world_model import ConfigurationManager
+from manager.manager.launcher.launcher_world import LauncherWorld
+from manager.manager.launcher.launcher_visualization import LauncherVisualization
+from manager.ram_logging.log_manager import LogManager
+from manager.libs.applications.compatibility.server import Server
+from manager.libs.applications.compatibility.file_watchdog import FileWatchdog
+from manager.manager.application.robotics_python_application_interface import (
     IRoboticsPythonApplication,
 )
-from src.manager.libs.process_utils import stop_process_and_children
-from src.manager.manager.lint.linter import Lint
+from manager.libs.process_utils import stop_process_and_children
+from manager.manager.lint.linter import Lint
 
 
 class Manager:
