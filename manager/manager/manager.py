@@ -74,7 +74,7 @@ class Manager:
         # Transitions for state visualization_ready
         {
             "trigger": "run_application",
-            "source": ["visualization_ready", "paused"],
+            "source": ["visualization_ready", "paused", "application_running"],
             "dest": "application_running",
             "before": "on_run_application",
         },
@@ -368,6 +368,13 @@ ideal_cycle = 20
             
             # raise Exception("No active console other than /dev/pts/0")
             return consoles
+        
+        # Kill already running code
+        try:
+            proc = psutil.Process(self.application_process.pid)
+            proc.kill()
+        except Exception:
+            pass
 
         code_path = "/workspace/code/academy.py"
         
