@@ -372,6 +372,7 @@ ideal_cycle = 20
         # Kill already running code
         try:
             proc = psutil.Process(self.application_process.pid)
+            proc.suspend()
             proc.kill()
         except Exception:
             pass
