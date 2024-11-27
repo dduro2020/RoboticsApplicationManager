@@ -33,7 +33,7 @@ visualization = {
             "module": "gazebo_view",
             "display": ":2",
             "external_port": 6080,
-            "internal_port": 5900,
+            "internal_port": 5901,
         },
     ],
     "gazebo_gra": [
