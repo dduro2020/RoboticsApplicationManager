@@ -453,9 +453,12 @@ ideal_cycle = 20
         zip_ref.extractall("/workspace/code")
         zip_ref.close()
 
+        fds = os.listdir("/dev/pts/")
+        console_fd = str(max(map(int, fds[:-1])))
+
         self.application_process = subprocess.Popen(
             ["python3", "/workspace/code/execute_docker.py"],
-            stdin=sys.stdin,
+            stdin=open('/dev/pts/' + console_fd, 'r'),
             stdout=sys.stdout,
             stderr=subprocess.STDOUT,
             bufsize=1024,
