@@ -455,6 +455,7 @@ ideal_cycle = 20
 
         self.application_process = subprocess.Popen(
             ["python3", "/workspace/code/execute_docker.py"],
+            stdin=sys.stdin,
             stdout=sys.stdout,
             stderr=subprocess.STDOUT,
             bufsize=1024,
